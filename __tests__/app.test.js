@@ -28,32 +28,14 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
+    test('returns todos', async() => {
 
-      const expectation = [
-        {
-          'id': 1,
-          'name': 'bessie',
-          'cool_factor': 3,
-          'owner_id': 1
-        },
-        {
-          'id': 2,
-          'name': 'jumpy',
-          'cool_factor': 4,
-          'owner_id': 1
-        },
-        {
-          'id': 3,
-          'name': 'spot',
-          'cool_factor': 10,
-          'owner_id': 1
-        }
-      ];
+      const expectation = [];
 
       const data = await fakeRequest(app)
-        .get('/animals')
+        .get('/api/task')
         .expect('Content-Type', /json/)
+        .set('Authorization', token)
         .expect(200);
 
       expect(data.body).toEqual(expectation);
