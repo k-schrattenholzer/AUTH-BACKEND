@@ -63,5 +63,27 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
+
+    test('put /todo', async() => {
+
+      const expectation = [ 
+        {
+          id: expect.any(Number),
+          description: 'test post route',
+          status: true,
+          owner_id: expect.any(Number)
+        }];
+
+      const data = await fakeRequest(app)
+        .put('/api/task/4')
+        .send({
+          status: true,
+        })
+        .expect('Content-Type', /json/)
+        .set('Authorization', token)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
   });
 });
