@@ -28,12 +28,35 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns todos', async() => {
+    test('get /todos', async() => {
 
       const expectation = [];
 
       const data = await fakeRequest(app)
         .get('/api/task')
+        .expect('Content-Type', /json/)
+        .set('Authorization', token)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    test('post /todo', async() => {
+
+      const expectation = [ 
+        {
+          id: expect.any(Number),
+          description: 'test post route',
+          status: false,
+          owner_id: expect.any(Number)
+        }];
+
+      const data = await fakeRequest(app)
+        .post('/api/task')
+        .send({
+          description: 'test post route',
+          status: false,
+        })
         .expect('Content-Type', /json/)
         .set('Authorization', token)
         .expect(200);
